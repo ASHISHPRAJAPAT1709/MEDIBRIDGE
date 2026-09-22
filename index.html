@@ -1,0 +1,1564 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MediBridge AI — Multilingual Clinical Intake & Physician Review</title>
+  <meta name="description" content="AI-Powered Multilingual Clinical Intake Platform — SIH 2026 Demo Prototype. Transforms patient stories and medical documents into structured, verified clinical summaries.">
+  <link rel="stylesheet" href="style.css">
+  <link rel="icon" type="image/svg+xml" href="assets/logo.svg">
+</head>
+<body>
+
+  <!-- =========================================================================
+       GLOBAL NAVIGATION HEADER
+       ========================================================================= -->
+  <header class="site-header" role="banner">
+    <div class="header-inner">
+      <div class="brand-logo" onclick="appNav.goToSection('home')" role="button" tabindex="0" aria-label="MediBridge AI Home">
+        <img src="assets/logo.svg" alt="MediBridge AI Logo" width="36" height="36">
+        <div class="brand-title">
+          MediBridge<span>AI</span>
+          <span class="brand-badge">SIH 2026 DEMO</span>
+        </div>
+      </div>
+
+      <nav class="main-nav" id="mainNav" role="navigation" aria-label="Main Navigation">
+        <button class="nav-link active" data-nav="home" onclick="appNav.goToSection('home')">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
+          Home
+        </button>
+        <button class="nav-link" data-nav="intake" onclick="appNav.goToSection('intake')">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+          Patient Intake
+        </button>
+        <button class="nav-link" data-nav="documents" onclick="appNav.goToSection('documents')">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+          Medical Documents
+        </button>
+        <button class="nav-link" data-nav="summary" onclick="appNav.goToSection('summary')">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+          AI Clinical Summary
+        </button>
+        <button class="nav-link" data-nav="dashboard" onclick="appNav.goToSection('dashboard')">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
+          Doctor Dashboard
+        </button>
+        <button class="nav-link" data-nav="review" onclick="appNav.goToSection('review')">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path><rect x="8" y="2" width="8" height="4" rx="1" ry="1"></rect><path d="m9 14 2 2 4-4"></path></svg>
+          Patient Review
+        </button>
+        <button class="btn btn-sm btn-primary nav-cta" onclick="appNav.goToSection('intake')">
+          Demo Intake
+        </button>
+      </nav>
+
+      <!-- Mobile Toggle -->
+      <button class="nav-mobile-toggle" id="mobileToggle" aria-label="Toggle navigation menu" onclick="appNav.toggleMobileNav()">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+      </button>
+    </div>
+  </header>
+
+  <!-- =========================================================================
+       SECTION 1: HOME / LANDING PAGE
+       ========================================================================= -->
+  <main id="view-home" class="view-section active">
+    
+    <!-- Hero Banner -->
+    <section class="hero-wrapper">
+      <div class="container">
+        <div class="hero-grid">
+          <div class="hero-text">
+            <span class="badge-label">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+              AI-POWERED CLINICAL INTAKE
+            </span>
+            <h1>Bridge the Gap Between Patient Stories & Clinical Decisions</h1>
+            <p class="lead-text">
+              MediBridge AI transforms patient conversations and scattered medical documents into structured, physician-ready clinical history.
+            </p>
+            <div class="hero-actions">
+              <button class="btn btn-primary" onclick="appNav.goToSection('intake')">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polygon points="10 8 16 12 10 16 10 8"></polygon></svg>
+                Start Patient Demo
+              </button>
+              <button class="btn btn-secondary" onclick="appNav.goToSection('dashboard')">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
+                View Doctor Dashboard
+              </button>
+            </div>
+            
+            <div class="tech-pills">
+              <span class="pill-title">Core Pillars:</span>
+              <span class="tech-pill"><span class="dot"></span> Multilingual</span>
+              <span class="tech-pill"><span class="dot"></span> OCR</span>
+              <span class="tech-pill"><span class="dot"></span> Clinical AI</span>
+              <span class="tech-pill"><span class="dot"></span> FHIR-ready</span>
+              <span class="tech-pill"><span class="dot"></span> Doctor Verified</span>
+            </div>
+          </div>
+
+          <!-- Hero Visual: Custom Workflow Diagram -->
+          <div class="hero-visual">
+            <div class="workflow-card-head">
+              <h4>
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline></svg>
+                End-to-End Clinical Flow
+              </h4>
+              <span class="badge-label badge-purple">Automated Pipeline</span>
+            </div>
+
+            <div class="workflow-steps-vertical">
+              <div class="wf-step-box">
+                <div class="wf-step-icon">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"></path><path d="M19 10v2a7 7 0 0 1-14 0v-2"></path><line x1="12" y1="19" x2="12" y2="23"></line><line x1="8" y1="23" x2="16" y2="23"></line></svg>
+                </div>
+                <div class="wf-step-content">
+                  <h5>VOICE + TOUCH + MEDICAL DOCUMENTS</h5>
+                  <p>Multilingual speech input & past document upload</p>
+                </div>
+              </div>
+
+              <div class="wf-connector">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"></polyline></svg>
+              </div>
+
+              <div class="wf-step-box">
+                <div class="wf-step-icon purple">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+                </div>
+                <div class="wf-step-content">
+                  <h5>AI PROCESSING</h5>
+                  <p>ASR transcript translation + OCR info extraction</p>
+                </div>
+              </div>
+
+              <div class="wf-connector">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"></polyline></svg>
+              </div>
+
+              <div class="wf-step-box">
+                <div class="wf-step-icon blue">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="8" y1="6" x2="21" y2="6"></line><line x1="8" y1="12" x2="21" y2="12"></line><line x1="8" y1="18" x2="21" y2="18"></line><line x1="3" y1="6" x2="3.01" y2="6"></line><line x1="3" y1="12" x2="3.01" y2="12"></line><line x1="3" y1="18" x2="3.01" y2="18"></line></svg>
+                </div>
+                <div class="wf-step-content">
+                  <h5>STRUCTURED CLINICAL HISTORY</h5>
+                  <p>Chronological timeline & standardized summary</p>
+                </div>
+              </div>
+
+              <div class="wf-connector">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"></polyline></svg>
+              </div>
+
+              <div class="wf-step-box">
+                <div class="wf-step-icon emerald">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+                </div>
+                <div class="wf-step-content">
+                  <h5>DOCTOR VERIFICATION & CONSULTATION</h5>
+                  <p>Clinician review, edit/verify actions & audit trail</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Problem Section -->
+    <section class="problem-section">
+      <div class="container">
+        <div class="section-header">
+          <span class="badge-label badge-rose">The Challenge</span>
+          <h2>The Problem Starts Before the Consultation</h2>
+          <p>Traditional intake creates friction for both patients and clinicians before a consultation even begins.</p>
+        </div>
+
+        <div class="problem-grid">
+          <div class="problem-card">
+            <div class="problem-icon-wrapper">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
+            </div>
+            <h3>1. Fragmented Medical History</h3>
+            <p>Previous prescriptions, lab reports and discharge summaries are scattered across papers and devices.</p>
+          </div>
+
+          <div class="problem-card">
+            <div class="problem-icon-wrapper">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
+            </div>
+            <h3>2. Language & Communication Gap</h3>
+            <p>Patients may struggle to communicate medical history in a language or format comfortable for them.</p>
+          </div>
+
+          <div class="problem-card">
+            <div class="problem-icon-wrapper">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="12" y1="18" x2="12" y2="12"></line><line x1="9" y1="15" x2="15" y2="15"></line></svg>
+            </div>
+            <h3>3. Unstructured Medical Documents</h3>
+            <p>Handwritten and varied-format documents are difficult to process quickly in busy OPD environments.</p>
+          </div>
+
+          <div class="problem-card">
+            <div class="problem-icon-wrapper">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+            </div>
+            <h3>4. Limited Clinical Time</h3>
+            <p>Doctors often have limited time to collect and organize complete patient history during fast-paced visits.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Solution Section -->
+    <section class="solution-section">
+      <div class="container">
+        <div class="section-header">
+          <span class="badge-label badge-emerald">Our Solution</span>
+          <h2>One Patient. One Structured Clinical Story.</h2>
+          <p>Bridging patient expressions and clinical rigor through a continuous digital intake pipeline.</p>
+        </div>
+
+        <div class="solution-pipeline-track">
+          <div class="pipeline-node">
+            <div class="pipeline-node-icon">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+            </div>
+            <h4>Patient</h4>
+          </div>
+
+          <div class="pipeline-arrow">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"></polyline></svg>
+          </div>
+
+          <div class="pipeline-node">
+            <div class="pipeline-node-icon">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"></path><path d="M19 10v2a7 7 0 0 1-14 0v-2"></path></svg>
+            </div>
+            <h4>Voice / Touch</h4>
+          </div>
+
+          <div class="pipeline-arrow">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"></polyline></svg>
+          </div>
+
+          <div class="pipeline-node">
+            <div class="pipeline-node-icon">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline></svg>
+            </div>
+            <h4>Medical Documents</h4>
+          </div>
+
+          <div class="pipeline-arrow">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"></polyline></svg>
+          </div>
+
+          <div class="pipeline-node">
+            <div class="pipeline-node-icon">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+            </div>
+            <h4>AI Processing</h4>
+          </div>
+
+          <div class="pipeline-arrow">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"></polyline></svg>
+          </div>
+
+          <div class="pipeline-node">
+            <div class="pipeline-node-icon">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 14 14"></polyline></svg>
+            </div>
+            <h4>Medical Timeline</h4>
+          </div>
+
+          <div class="pipeline-arrow">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"></polyline></svg>
+          </div>
+
+          <div class="pipeline-node">
+            <div class="pipeline-node-icon">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="8" y1="6" x2="21" y2="6"></line><line x1="8" y1="12" x2="21" y2="12"></line><line x1="8" y1="18" x2="21" y2="18"></line></svg>
+            </div>
+            <h4>Clinical Summary</h4>
+          </div>
+
+          <div class="pipeline-arrow">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"></polyline></svg>
+          </div>
+
+          <div class="pipeline-node">
+            <div class="pipeline-node-icon">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+            </div>
+            <h4>Doctor Verification</h4>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Architecture Visual Section -->
+    <section class="container" style="padding: 4.5rem 0;">
+      <div class="section-header">
+        <span class="badge-label badge-purple">System Design</span>
+        <h2>MediBridge Architecture Stack</h2>
+        <p>Layered prototype architecture engineered for reliability, multilingual accessibility, and clinician oversight.</p>
+      </div>
+
+      <div class="arch-diagram-wrap">
+        <div class="arch-layer-card">
+          <h4>
+            <span class="badge-label">Layer 1</span>
+            Patient Interface
+          </h4>
+          <p>Kiosk or mobile portal supporting touch screens, regional audio prompts, and accessible controls.</p>
+          <div class="arch-subpills">
+            <span class="arch-subpill">Multilingual Audio Prompts</span>
+            <span class="arch-subpill">Touch Symptom Selector</span>
+            <span class="arch-subpill">Digital Consent Form</span>
+          </div>
+        </div>
+
+        <div class="arch-connector">↓</div>
+
+        <div class="arch-layer-card">
+          <h4>
+            <span class="badge-label">Layer 2</span>
+            Input Layer (Voice | Touch | Documents)
+          </h4>
+          <p>Captures patient complaints in native dialects alongside past diagnostic reports and physical prescriptions.</p>
+          <div class="arch-subpills">
+            <span class="arch-subpill">Voice Ingestion</span>
+            <span class="arch-subpill">Document Scanner / Upload</span>
+            <span class="arch-subpill">Structured Symptom Checklist</span>
+          </div>
+        </div>
+
+        <div class="arch-connector">↓</div>
+
+        <div class="arch-layer-card highlight">
+          <h4>
+            <span class="badge-label badge-purple">Layer 3</span>
+            AI Processing Layer (ASR | OCR | LLM | Clinical Rules)
+          </h4>
+          <p>Converts unstructured Indian language audio into transcripts, extracts lab parameters via OCR, and runs red-flag screening.</p>
+          <div class="arch-subpills">
+            <span class="arch-subpill">Bhashini-Ready ASR</span>
+            <span class="arch-subpill">Medical OCR Extraction</span>
+            <span class="arch-subpill">Clinical Rule Engine</span>
+            <span class="arch-subpill">Entity Normalization</span>
+          </div>
+        </div>
+
+        <div class="arch-connector">↓</div>
+
+        <div class="arch-layer-card">
+          <h4>
+            <span class="badge-label">Layer 4</span>
+            Data Structuring (Clinical History | Timeline | Summary)
+          </h4>
+          <p>Organizes extracted data into a unified chronological medical timeline and chief complaint summary.</p>
+          <div class="arch-subpills">
+            <span class="arch-subpill">Chronological Timeline</span>
+            <span class="arch-subpill">SOAP Clinical Summary</span>
+            <span class="arch-subpill">Confidence Scoring Tags</span>
+          </div>
+        </div>
+
+        <div class="arch-connector">↓</div>
+
+        <div class="arch-layer-card">
+          <h4>
+            <span class="badge-label badge-emerald">Layer 5</span>
+            Doctor Interface (Review | Edit | Verify)
+          </h4>
+          <p>Physician review workstation with one-click verification, inline corrections, rejection controls, and timestamped audit logs.</p>
+          <div class="arch-subpills">
+            <span class="arch-subpill">One-Click Verify</span>
+            <span class="arch-subpill">Inline Edit Controls</span>
+            <span class="arch-subpill">Audit Trail Logging</span>
+          </div>
+        </div>
+
+        <div class="arch-connector">↓</div>
+
+        <div class="arch-layer-card">
+          <h4>
+            <span class="badge-label">Layer 6</span>
+            Healthcare Integration Architecture (FHIR | ABDM | HIS / EMR)
+          </h4>
+          <p>Designed for interoperability with Ayushman Bharat Digital Mission (ABDM) and Hospital Information Systems via standard FHIR resources.</p>
+          <div class="arch-subpills">
+            <span class="arch-subpill">FHIR Bundle-Ready</span>
+            <span class="arch-subpill">ABDM Gateway Architecture</span>
+            <span class="arch-subpill">HIS/EMR Connectors</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Technology Behind MediBridge AI -->
+    <section class="container" style="padding-bottom: 4rem;">
+      <div class="section-header">
+        <span class="badge-label">Engineering Pillars</span>
+        <h2>Technology Behind MediBridge AI</h2>
+        <p>A resilient, modular system architecture designed for Indian public and private healthcare environments.</p>
+      </div>
+
+      <div class="tech-grid">
+        <div class="tech-card">
+          <h4>Frontend Architecture</h4>
+          <p>HTML5, Modern CSS3, and Vanilla JavaScript. Zero external frameworks, ensuring ultra-lightweight client-side performance and offline kiosk readiness.</p>
+        </div>
+
+        <div class="tech-card">
+          <h4>AI Layer</h4>
+          <p>Hybrid architecture pairing LLM clinical structuring with deterministic rule-based screening for deterministic safety and speed.</p>
+        </div>
+
+        <div class="tech-card">
+          <h4>Voice & Languages</h4>
+          <p>Indian Language ASR / Bhashini-ready architecture supporting Hindi, Marathi, Gujarati, Bengali, and English speech intake.</p>
+        </div>
+
+        <div class="tech-card">
+          <h4>Document Intelligence</h4>
+          <p>Medical OCR and key-value extraction pipeline tailored to handwritten prescriptions, laboratory reports, and hospital discharge summaries.</p>
+        </div>
+
+        <div class="tech-card">
+          <h4>Healthcare Data Standards</h4>
+          <p>FHIR-oriented data modeling ensuring structured storage of Chief Complaints, Observations, Conditions, and Diagnostic Reports.</p>
+        </div>
+
+        <div class="tech-card">
+          <h4>Ecosystem Integration</h4>
+          <p>ABDM / HIS / EMR-ready architecture conceptualized for ABHA ID lookup, health facility registries, and electronic medical records.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Security & Trust Section -->
+    <section class="problem-section">
+      <div class="container">
+        <div class="section-header">
+          <span class="badge-label badge-emerald">Privacy & Ethics</span>
+          <h2>Built Around Trust</h2>
+          <p>Strict patient consent and physician-in-the-loop governance at every point of the intake journey.</p>
+        </div>
+
+        <div class="security-grid">
+          <div class="security-card">
+            <h4>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+              Consent First
+            </h4>
+            <p>Every intake session requires explicit patient consent before capturing voice or medical documents.</p>
+          </div>
+
+          <div class="security-card">
+            <h4>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
+              Role-Based Access
+            </h4>
+            <p>Patients interact with an intake interface; only authenticated healthcare providers can access and modify clinical records.</p>
+          </div>
+
+          <div class="security-card">
+            <h4>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+              Encrypted Data Architecture
+            </h4>
+            <p>End-to-end data security standards ready for AES-256 at rest and TLS 1.3 in transit.</p>
+          </div>
+
+          <div class="security-card">
+            <h4>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline></svg>
+              Audit Trail
+            </h4>
+            <p>Every AI suggestion, doctor modification, rejection, and verification action is logged with precise timestamps.</p>
+          </div>
+
+          <div class="security-card">
+            <h4>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+              Doctor Verification
+            </h4>
+            <p>AI never produces final medical diagnoses. The clinician retains full legal authority to verify or reject suggestions.</p>
+          </div>
+
+          <div class="security-card">
+            <h4>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+              Privacy by Design
+            </h4>
+            <p>Minimal data collection philosophy. Patient identifiers are decoupled from training sets and protected by design.</p>
+          </div>
+        </div>
+
+        <div class="disclaimer-banner">
+          ⚠️ Prototype demonstration using synthetic data. Not intended for diagnosis or production clinical use.
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- =========================================================================
+       SECTION 2: PATIENT INTAKE DEMO (6-STEP WORKFLOW)
+       ========================================================================= -->
+  <section id="view-intake" class="view-section intake-view-wrapper">
+    <div class="container">
+      
+      <!-- Stepper Progress Indicator -->
+      <div class="stepper-header">
+        <div class="stepper-progress-bar" id="stepperProgressBar">
+          <button class="stepper-step active" data-step="1" onclick="intakeFlow.goToStep(1)">
+            <div class="step-bubble">01</div>
+            <span class="step-text">Identity</span>
+          </button>
+          <button class="stepper-step" data-step="2" onclick="intakeFlow.goToStep(2)">
+            <div class="step-bubble">02</div>
+            <span class="step-text">Consent</span>
+          </button>
+          <button class="stepper-step" data-step="3" onclick="intakeFlow.goToStep(3)">
+            <div class="step-bubble">03</div>
+            <span class="step-text">Language</span>
+          </button>
+          <button class="stepper-step" data-step="4" onclick="intakeFlow.goToStep(4)">
+            <div class="step-bubble">04</div>
+            <span class="step-text">Symptoms</span>
+          </button>
+          <button class="stepper-step" data-step="5" onclick="intakeFlow.goToStep(5)">
+            <div class="step-bubble">05</div>
+            <span class="step-text">Documents</span>
+          </button>
+          <button class="stepper-step" data-step="6" onclick="intakeFlow.goToStep(6)">
+            <div class="step-bubble">06</div>
+            <span class="step-text">Review</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- STEP 1: PATIENT IDENTITY -->
+      <div class="step-card active" id="stepCard1">
+        <div class="step-card-header">
+          <span class="badge-label">Step 01 of 06</span>
+          <h3>Let's identify the patient</h3>
+          <p>Confirm the patient registration details before proceeding to clinical intake.</p>
+        </div>
+
+        <div class="synthetic-banner">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
+          Demo Patient – Synthetic Data (Do NOT use real patient data)
+        </div>
+
+        <form id="patientIdentityForm" onsubmit="event.preventDefault(); intakeFlow.submitIdentity();">
+          <div class="form-group">
+            <label class="form-label" for="patientNameInput">Patient Full Name</label>
+            <input type="text" id="patientNameInput" class="form-control" value="Aarav Sharma" required>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="patientIdInput">Patient ID / ABHA (Demo)</label>
+            <input type="text" id="patientIdInput" class="form-control" value="DEMO-ABHA-001" required>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label" for="patientAgeInput">Age (Years)</label>
+              <input type="number" id="patientAgeInput" class="form-control" value="42" min="1" max="120" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="patientGenderInput">Gender</label>
+              <select id="patientGenderInput" class="form-control" required>
+                <option value="Male" selected>Male</option>
+                <option value="Female">Female</option>
+                <option value="Other">Other</option>
+              </select>
+            </div>
+          </div>
+
+          <div style="margin-top: 2rem; display: flex; justify-content: flex-end;">
+            <button type="submit" class="btn btn-primary">
+              Continue
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"></polyline></svg>
+            </button>
+          </div>
+        </form>
+      </div>
+
+      <!-- STEP 2: CONSENT -->
+      <div class="step-card" id="stepCard2">
+        <div class="step-card-header">
+          <span class="badge-label badge-purple">Step 02 of 06</span>
+          <h3>Informed Consent</h3>
+          <p>MediBridge AI values patient privacy and operates strictly on explicit digital consent.</p>
+        </div>
+
+        <div class="consent-box">
+          <p class="consent-statement">
+            "Your information will be used only to prepare your clinical history for consultation."
+          </p>
+          <p style="font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 1.25rem;">
+            This prototype processes conversational input and previous medical records to assist your attending clinician. No audio or document data is permanently stored or shared with third parties without authorization.
+          </p>
+          <label class="consent-checkbox-wrapper">
+            <input type="checkbox" id="consentCheckbox" onchange="intakeFlow.handleConsentChange()">
+            <span>I understand and consent to this demo workflow.</span>
+          </label>
+        </div>
+
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 2rem;">
+          <button type="button" class="btn btn-secondary" onclick="intakeFlow.goToStep(1)">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"></polyline></svg>
+            Back
+          </button>
+          <button type="button" id="consentSubmitBtn" class="btn btn-primary" onclick="intakeFlow.submitConsent()" disabled>
+            Give Consent &amp; Continue
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"></polyline></svg>
+          </button>
+        </div>
+      </div>
+
+      <!-- STEP 3: LANGUAGE -->
+      <div class="step-card" id="stepCard3">
+        <div class="step-card-header">
+          <span class="badge-label">Step 03 of 06</span>
+          <h3>How would you like to communicate?</h3>
+          <p>Select the preferred language for patient voice input and conversational questions.</p>
+        </div>
+
+        <div class="language-grid">
+          <div class="language-card" onclick="intakeFlow.selectLanguage('English')" data-lang="English">
+            <span class="lang-native">English</span>
+            <span class="lang-en">English</span>
+          </div>
+          <div class="language-card active" onclick="intakeFlow.selectLanguage('Hindi')" data-lang="Hindi">
+            <span class="lang-native">हिन्दी</span>
+            <span class="lang-en">Hindi (Default)</span>
+          </div>
+          <div class="language-card" onclick="intakeFlow.selectLanguage('Marathi')" data-lang="Marathi">
+            <span class="lang-native">मराठी</span>
+            <span class="lang-en">Marathi</span>
+          </div>
+          <div class="language-card" onclick="intakeFlow.selectLanguage('Gujarati')" data-lang="Gujarati">
+            <span class="lang-native">ગુજરાતી</span>
+            <span class="lang-en">Gujarati</span>
+          </div>
+          <div class="language-card" onclick="intakeFlow.selectLanguage('Bengali')" data-lang="Bengali">
+            <span class="lang-native">বাংলা</span>
+            <span class="lang-en">Bengali</span>
+          </div>
+        </div>
+
+        <div style="display: flex; justify-content: space-between; align-items: center;">
+          <button type="button" class="btn btn-secondary" onclick="intakeFlow.goToStep(2)">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"></polyline></svg>
+            Back
+          </button>
+          <button type="button" class="btn btn-primary" onclick="intakeFlow.submitLanguage()">
+            Continue
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"></polyline></svg>
+          </button>
+        </div>
+      </div>
+
+      <!-- STEP 4: SYMPTOMS (VOICE + TOUCH + RED-FLAG DEMO) -->
+      <div class="step-card" id="stepCard4">
+        <div class="step-card-header">
+          <span class="badge-label">Step 04 of 06</span>
+          <h3>Tell us what you are experiencing</h3>
+          <p>Use conversational voice intake or select from common symptom chips.</p>
+        </div>
+
+        <!-- Voice Interface Box -->
+        <div class="voice-section-card">
+          <div class="mic-btn-container">
+            <button type="button" id="micBtn" class="mic-button" onclick="intakeFlow.triggerVoiceSimulation()" aria-label="Tap to speak">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"></path>
+                <path d="M19 10v2a7 7 0 0 1-14 0v-2"></path>
+                <line x1="12" y1="19" x2="12" y2="23"></line>
+                <line x1="8" y1="23" x2="16" y2="23"></line>
+              </svg>
+            </button>
+            <span id="micLabel" class="mic-label">Tap to speak (Simulated Audio)</span>
+          </div>
+
+          <div id="speechTranscriptBox" class="speech-transcript-box">
+            <div class="transcript-tag">Audio Ingestion (Hindi Transcript)</div>
+            <p class="transcript-text" id="transcriptText">"मुझे पिछले 3 दिनों से बुखार और पेट में दर्द है।"</p>
+          </div>
+
+          <!-- Structured Output Cards -->
+          <div id="structuredSymptomsOutput" class="structured-symptoms-output" style="display: none;">
+            <div class="structured-item">
+              <h6>Chief Complaint</h6>
+              <p id="extractedChief">Fever</p>
+            </div>
+            <div class="structured-item">
+              <h6>Duration</h6>
+              <p id="extractedDuration">3 days</p>
+            </div>
+            <div class="structured-item">
+              <h6>Associated Symptom</h6>
+              <p id="extractedAssociated">Abdominal discomfort</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Touch-Based Symptom Chips -->
+        <div class="touch-symptoms-section">
+          <div class="touch-symptoms-title">Or select touch-based symptom cards:</div>
+          <div class="symptoms-chip-grid" id="symptomsChipGrid">
+            <button type="button" class="symptom-chip selected" data-symptom="Fever" onclick="intakeFlow.toggleSymptom('Fever')">✓ Fever</button>
+            <button type="button" class="symptom-chip selected" data-symptom="Abdominal Discomfort" onclick="intakeFlow.toggleSymptom('Abdominal Discomfort')">✓ Abdominal Discomfort</button>
+            <button type="button" class="symptom-chip" data-symptom="Cough" onclick="intakeFlow.toggleSymptom('Cough')">+ Cough</button>
+            <button type="button" class="symptom-chip" data-symptom="Pain" onclick="intakeFlow.toggleSymptom('Pain')">+ Pain</button>
+            <button type="button" class="symptom-chip" data-symptom="Breathing Difficulty" onclick="intakeFlow.toggleSymptom('Breathing Difficulty')">+ Breathing Difficulty</button>
+            <button type="button" class="symptom-chip" data-symptom="Headache" onclick="intakeFlow.toggleSymptom('Headache')">+ Headache</button>
+            <button type="button" class="symptom-chip" data-symptom="Vomiting" onclick="intakeFlow.toggleSymptom('Vomiting')">+ Vomiting</button>
+            <button type="button" class="symptom-chip" data-symptom="Chest Pain" onclick="intakeFlow.toggleSymptom('Chest Pain')">+ Chest Pain</button>
+            <button type="button" class="symptom-chip" data-symptom="Other" onclick="intakeFlow.toggleSymptom('Other')">+ Other</button>
+          </div>
+        </div>
+
+        <!-- Red Flag Alert Banner -->
+        <div id="redFlagBanner" class="red-flag-banner">
+          <div class="red-flag-icon">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="9" x2="12" y2="13"></line><circle cx="12" cy="17" r="1"></circle></svg>
+          </div>
+          <div class="red-flag-content">
+            <h5>Attention Required</h5>
+            <p>Potential red-flag information detected (Chest Pain + Breathing Difficulty). Please review with a healthcare professional immediately. (Note: This is an intake triage alert, NOT a diagnosis).</p>
+          </div>
+        </div>
+
+        <div style="margin-top: 1.5rem; display: flex; justify-content: space-between; align-items: center;">
+          <button type="button" class="btn btn-secondary" onclick="intakeFlow.goToStep(3)">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"></polyline></svg>
+            Back
+          </button>
+          <button type="button" class="btn btn-primary" onclick="intakeFlow.submitSymptoms()">
+            Continue to Documents
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"></polyline></svg>
+          </button>
+        </div>
+      </div>
+
+      <!-- STEP 5: DOCUMENTS -->
+      <div class="step-card" id="stepCard5">
+        <div class="step-card-header">
+          <span class="badge-label">Step 05 of 06</span>
+          <h3>Add Previous Medical Documents</h3>
+          <p>Attach previous lab reports or prescriptions for instant OCR structuring.</p>
+        </div>
+
+        <div class="doc-types-selector">
+          <div class="doc-type-btn" onclick="docUpload.selectDocType('Prescription')">
+            <span>Prescription</span>
+          </div>
+          <div class="doc-type-btn active" onclick="docUpload.selectDocType('Lab Report')">
+            <span>Lab Report</span>
+          </div>
+          <div class="doc-type-btn" onclick="docUpload.selectDocType('Discharge Summary')">
+            <span>Discharge Summary</span>
+          </div>
+          <div class="doc-type-btn" onclick="docUpload.selectDocType('Other')">
+            <span>Other Record</span>
+          </div>
+        </div>
+
+        <!-- Dropzone Area -->
+        <div class="dropzone-area" id="docDropzone" onclick="docUpload.triggerFileSelect()">
+          <input type="file" id="fileInputElem" style="display: none;" onchange="docUpload.handleFileChosen(event)">
+          <div class="dropzone-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+              <polyline points="17 8 12 3 7 8"></polyline>
+              <line x1="12" y1="3" x2="12" y2="15"></line>
+            </svg>
+          </div>
+          <div class="dropzone-title" id="dropzoneTitle">Click to choose document or drag &amp; drop file</div>
+          <div class="dropzone-desc">Sample file preloaded: <strong>blood_report_2025.pdf</strong> (Synthetic Data)</div>
+
+          <!-- OCR Scanning Animation Overlay -->
+          <div class="ocr-scan-overlay" id="ocrScanOverlay">
+            <div class="scan-laser"></div>
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#00B4D8" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline></svg>
+            <div class="scan-status-text" id="scanStatusText">Scanning document...</div>
+            <div class="scan-progress-bar-wrap">
+              <div class="scan-progress-fill" id="scanProgressFill"></div>
+            </div>
+          </div>
+        </div>
+
+        <div style="margin-top: 1rem; display: flex; justify-content: flex-end; gap: 0.75rem;">
+          <button type="button" class="btn btn-cyan btn-sm" onclick="docUpload.runDemoOCR()">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+            Run Demo OCR
+          </button>
+        </div>
+
+        <!-- OCR Results Box -->
+        <div class="ocr-results-card" id="ocrResultsCard">
+          <div class="ocr-results-header">
+            <div>
+              <span class="badge-label badge-purple">Demo OCR Result</span>
+              <h4 style="font-size: 0.95rem; font-weight: 800; color: var(--navy-900); margin-top: 0.3rem;">DOCUMENT: Previous Blood Report</h4>
+            </div>
+            <span style="font-size: 0.75rem; color: var(--text-muted);">Synthetic Data</span>
+          </div>
+
+          <div class="extracted-values-grid">
+            <div class="extracted-val-box">
+              <h6>Hemoglobin</h6>
+              <div class="val-text">13.2 <span style="font-size: 0.8rem; font-weight: 500; color: var(--text-muted);">g/dL</span></div>
+            </div>
+            <div class="extracted-val-box">
+              <h6>WBC (Leukocytes)</h6>
+              <div class="val-text" style="color: var(--amber-600);">15,700 <span style="font-size: 0.8rem; font-weight: 500; color: var(--text-muted);">/µL (Elevated)</span></div>
+            </div>
+            <div class="extracted-val-box">
+              <h6>Platelets</h6>
+              <div class="val-text">4.64 <span style="font-size: 0.8rem; font-weight: 500; color: var(--text-muted);">lakh/µL</span></div>
+            </div>
+          </div>
+        </div>
+
+        <div style="margin-top: 2rem; display: flex; justify-content: space-between; align-items: center;">
+          <button type="button" class="btn btn-secondary" onclick="intakeFlow.goToStep(4)">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"></polyline></svg>
+            Back
+          </button>
+          <button type="button" class="btn btn-primary" onclick="intakeFlow.submitDocuments()">
+            Proceed to Review
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"></polyline></svg>
+          </button>
+        </div>
+      </div>
+
+      <!-- STEP 6: PATIENT SUMMARY REVIEW -->
+      <div class="step-card" id="stepCard6">
+        <div class="step-card-header">
+          <span class="badge-label badge-emerald">Step 06 of 06</span>
+          <h3>Intake Review &amp; Handover</h3>
+          <p>Your inputs and attached documents have been compiled into a structured intake record.</p>
+        </div>
+
+        <div style="background-color: var(--bg-main); border: 1px solid var(--border-light); border-radius: var(--radius-lg); padding: 1.5rem; margin-bottom: 1.5rem;">
+          <h4 style="font-size: 1.05rem; font-weight: 700; color: var(--navy-900); margin-bottom: 0.75rem;">Intake Record Prepared</h4>
+          <ul style="list-style: none; display: flex; flex-direction: column; gap: 0.5rem; font-size: 0.9rem;">
+            <li><strong>Patient:</strong> Aarav Sharma (42, Male)</li>
+            <li><strong>Registered ABHA:</strong> DEMO-ABHA-001</li>
+            <li><strong>Intake Language:</strong> Hindi (हिन्दी)</li>
+            <li><strong>Primary Symptoms:</strong> Fever (3 days) with abdominal discomfort</li>
+            <li><strong>Records Attached:</strong> Previous Blood Report (OCR Processed)</li>
+          </ul>
+        </div>
+
+        <div class="consultation-ready-banner">
+          <h3>Clinical History Ready</h3>
+          <p>
+            Patient Input + Previous Records + AI Structuring<br>
+            <strong>↓</strong><br>
+            Verified Clinical History
+          </p>
+          <button type="button" class="btn btn-cyan" onclick="intakeFlow.completeConsultationPreparation()">
+            Complete Consultation Preparation
+          </button>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- =========================================================================
+       SECTION 3: MEDICAL DOCUMENTS VIEW (STANDALONE UPLOAD & OCR)
+       ========================================================================= -->
+  <section id="view-documents" class="view-section">
+    <div class="container" style="padding-top: 2rem;">
+      <div class="section-header">
+        <span class="badge-label badge-purple">Document Intelligence</span>
+        <h2>Medical Document Processing</h2>
+        <p>Convert scanned prescriptions, lab investigation reports, and discharge summaries into structured clinical parameters.</p>
+      </div>
+
+      <div style="max-width: 760px; margin: 0 auto; background: #FFFFFF; border: 1px solid var(--border-light); border-radius: var(--radius-xl); padding: 2rem; box-shadow: var(--shadow-sm);">
+        <div class="doc-types-selector">
+          <div class="doc-type-btn active" onclick="docUpload.selectDocType('Lab Report')">
+            <span>Lab Report</span>
+          </div>
+          <div class="doc-type-btn" onclick="docUpload.selectDocType('Prescription')">
+            <span>Prescription</span>
+          </div>
+          <div class="doc-type-btn" onclick="docUpload.selectDocType('Discharge Summary')">
+            <span>Discharge Summary</span>
+          </div>
+          <div class="doc-type-btn" onclick="docUpload.selectDocType('Other')">
+            <span>Other Record</span>
+          </div>
+        </div>
+
+        <div class="dropzone-area" onclick="docUpload.triggerFileSelect()">
+          <div class="dropzone-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
+          </div>
+          <div class="dropzone-title">Upload Medical Record (Demo)</div>
+          <div class="dropzone-desc">Drag and drop file or click to select synthetic report</div>
+        </div>
+
+        <div style="margin-top: 1.25rem; display: flex; justify-content: flex-end;">
+          <button class="btn btn-cyan" onclick="docUpload.runDemoOCR()">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+            Run Demo OCR
+          </button>
+        </div>
+
+        <div class="ocr-results-card active" style="margin-top: 1.5rem;">
+          <div class="ocr-results-header">
+            <div>
+              <span class="badge-label badge-purple">Demo OCR Result</span>
+              <h4 style="font-size: 1rem; font-weight: 800; color: var(--navy-900); margin-top: 0.3rem;">DOCUMENT: Previous Blood Report</h4>
+            </div>
+            <span class="badge-label badge-slate">Synthetic Demonstration Data</span>
+          </div>
+
+          <div class="extracted-values-grid">
+            <div class="extracted-val-box">
+              <h6>Hemoglobin</h6>
+              <div class="val-text">13.2 <span style="font-size: 0.8rem; font-weight: 500; color: var(--text-muted);">g/dL</span></div>
+            </div>
+            <div class="extracted-val-box">
+              <h6>WBC</h6>
+              <div class="val-text" style="color: var(--amber-600);">15,700 <span style="font-size: 0.8rem; font-weight: 500; color: var(--text-muted);">/µL</span></div>
+            </div>
+            <div class="extracted-val-box">
+              <h6>Platelets</h6>
+              <div class="val-text">4.64 <span style="font-size: 0.8rem; font-weight: 500; color: var(--text-muted);">lakh/µL</span></div>
+            </div>
+          </div>
+          <p style="font-size: 0.78rem; color: var(--text-muted); margin-top: 1rem;">Values shown are synthetic demonstration data for clinical intake verification.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================================================================
+       SECTION 4: AI CLINICAL SUMMARY & TIMELINE
+       ========================================================================= -->
+  <section id="view-summary" class="view-section">
+    <div class="container" style="padding-top: 2rem;">
+      <div class="section-header">
+        <span class="badge-label badge-purple">Structured Output</span>
+        <h2>AI-Assisted Clinical History</h2>
+        <p>Comprehensive clinical summary with attribution source badges and confidence metrics.</p>
+      </div>
+
+      <div class="summary-panel-wrap">
+        <!-- Patient Banner -->
+        <div class="summary-panel-header">
+          <div class="summary-patient-meta">
+            <div class="patient-avatar-circle">AS</div>
+            <div>
+              <h3 style="font-size: 1.25rem; font-weight: 800; color: #FFFFFF;" id="summaryPatientName">Aarav Sharma</h3>
+              <p style="font-size: 0.85rem; color: var(--cyan-100);" id="summaryPatientMeta">42 / Male • DEMO-ABHA-001</p>
+            </div>
+          </div>
+          <div>
+            <span class="badge-label badge-emerald">Ready for Review</span>
+          </div>
+        </div>
+
+        <!-- Summary Content Sections -->
+        <div class="summary-panel-body">
+          
+          <!-- 1. Chief Complaint -->
+          <div class="summary-section-block">
+            <div class="section-title-row">
+              <h4>CHIEF COMPLAINT</h4>
+              <div>
+                <span class="badge-label">PATIENT</span>
+                <span class="confidence-meter-tag confidence-high">High confidence</span>
+              </div>
+            </div>
+            <p class="summary-content-text" id="summaryChiefText">Fever with abdominal discomfort for 3 days.</p>
+          </div>
+
+          <!-- 2. History of Present Illness -->
+          <div class="summary-section-block">
+            <div class="section-title-row">
+              <h4>HISTORY OF PRESENT ILLNESS</h4>
+              <div>
+                <span class="badge-label badge-purple">AI STRUCTURED</span>
+                <span class="confidence-meter-tag confidence-verify">Doctor verification required</span>
+              </div>
+            </div>
+            <p class="summary-content-text" id="summaryHpiText">
+              Patient reports fever beginning approximately three days ago with associated abdominal discomfort. Onset was acute, without chills or rigors noted at intake.
+            </p>
+          </div>
+
+          <!-- 3. Past Medical History -->
+          <div class="summary-section-block">
+            <div class="section-title-row">
+              <h4>PAST MEDICAL HISTORY</h4>
+              <div>
+                <span class="badge-label">PATIENT</span>
+                <span class="confidence-meter-tag confidence-high">High confidence</span>
+              </div>
+            </div>
+            <p class="summary-content-text" id="summaryPmhText">No known chronic ailments (Hypertension / Type 2 Diabetes) reported by patient during intake.</p>
+          </div>
+
+          <!-- 4. Medication History -->
+          <div class="summary-section-block">
+            <div class="section-title-row">
+              <h4>MEDICATION HISTORY</h4>
+              <div>
+                <span class="badge-label badge-emerald">DOCUMENT</span>
+                <span class="confidence-meter-tag confidence-review">Review required</span>
+              </div>
+            </div>
+            <p class="summary-content-text" id="summaryMedText">Previous medication information extracted from uploaded document: Paracetamol 650mg SOS for pyrexia.</p>
+          </div>
+
+          <!-- 5. Previous Investigations -->
+          <div class="summary-section-block">
+            <div class="section-title-row">
+              <h4>PREVIOUS INVESTIGATIONS</h4>
+              <div>
+                <span class="badge-label badge-emerald">DOCUMENT</span>
+                <span class="confidence-meter-tag confidence-review">Review required</span>
+              </div>
+            </div>
+            <p class="summary-content-text" id="summaryInvText">Previous laboratory report available. CBC indicates leukocytosis (WBC 15,700 /µL; Platelets 4.64 L; Hb 13.2 g/dL).</p>
+          </div>
+
+          <!-- 6. Relevant Findings -->
+          <div class="summary-section-block">
+            <div class="section-title-row">
+              <h4>RELEVANT FINDINGS</h4>
+              <div>
+                <span class="badge-label badge-purple">AI STRUCTURED</span>
+                <span class="confidence-meter-tag confidence-verify">Doctor verification required</span>
+              </div>
+            </div>
+            <p class="summary-content-text" id="summaryFindingsText">Abdominal discomfort localized to epigastric region by touch pointer; no vomiting or diarrhea reported.</p>
+          </div>
+
+          <!-- 7. Potential Red Flags -->
+          <div class="summary-section-block">
+            <div class="section-title-row">
+              <h4>IMPORTANT INFORMATION / POTENTIAL RED FLAGS</h4>
+              <div>
+                <span class="badge-label badge-amber">AI SCREENED</span>
+              </div>
+            </div>
+            <p class="summary-content-text" id="summaryRedFlagText">Previous investigation requires physician review due to elevated WBC count.</p>
+          </div>
+
+          <!-- 8. Patient-Reported Information -->
+          <div class="summary-section-block">
+            <div class="section-title-row">
+              <h4>PATIENT-REPORTED INFORMATION</h4>
+              <div>
+                <span class="badge-label">PATIENT</span>
+                <span class="confidence-meter-tag confidence-high">High confidence</span>
+              </div>
+            </div>
+            <p class="summary-content-text">Intake conducted via Hindi speech assistant. Patient confirmed symptoms began mid-week.</p>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Medical Timeline Section -->
+      <div class="timeline-section-wrap">
+        <div class="section-header" style="margin-top: 3.5rem;">
+          <span class="badge-label badge-emerald">Chronology</span>
+          <h2>Medical Timeline</h2>
+          <p>Aggregated timeline combining past consultations, lab reports, and present intake.</p>
+        </div>
+
+        <div class="timeline-flow">
+          <!-- 2024 -->
+          <div class="timeline-node-item">
+            <div class="timeline-marker"></div>
+            <div class="timeline-card" onclick="timelineViewer.openModal(2024)">
+              <div class="timeline-meta">
+                <span class="timeline-year">2024</span>
+                <span class="badge-label badge-emerald">Doctor Verified</span>
+              </div>
+              <h4>Previous Consultation</h4>
+              <p>Routine outpatient visit for seasonal viral infection. Prescribed antipyretics with complete symptom resolution.</p>
+            </div>
+          </div>
+
+          <!-- 2025 Visit -->
+          <div class="timeline-node-item">
+            <div class="timeline-marker"></div>
+            <div class="timeline-card" onclick="timelineViewer.openModal(20251)">
+              <div class="timeline-meta">
+                <span class="timeline-year">2025</span>
+                <span class="badge-label">Document</span>
+              </div>
+              <h4>Hospital Visit</h4>
+              <p>Day-care clinical evaluation following mild dyspepsia. Abdominal ultrasound showed mild gastritis.</p>
+            </div>
+          </div>
+
+          <!-- 2025 Lab -->
+          <div class="timeline-node-item">
+            <div class="timeline-marker"></div>
+            <div class="timeline-card" onclick="timelineViewer.openModal(20252)">
+              <div class="timeline-meta">
+                <span class="timeline-year">2025</span>
+                <span class="badge-label badge-purple">AI Extracted</span>
+              </div>
+              <h4>Laboratory Investigation</h4>
+              <p>Complete Blood Count (CBC): Hb 13.2 g/dL, WBC 15,700 /µL, Platelets 4.64 lakh/µL.</p>
+            </div>
+          </div>
+
+          <!-- 2026 Current -->
+          <div class="timeline-node-item current">
+            <div class="timeline-marker"></div>
+            <div class="timeline-card" onclick="timelineViewer.openModal(2026)">
+              <div class="timeline-meta">
+                <span class="timeline-year">2026</span>
+                <span class="badge-label">Patient Input</span>
+              </div>
+              <h4>Current Symptoms</h4>
+              <p>Intake Chief Complaint: Fever for 3 days with epigastric discomfort. Synthetic intake prepared.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- =========================================================================
+       SECTION 5: DOCTOR DASHBOARD
+       ========================================================================= -->
+  <section id="view-dashboard" class="view-section">
+    <div class="container" style="padding-top: 1.5rem;">
+      
+      <div class="dashboard-grid">
+        <!-- Sidebar -->
+        <aside class="dash-sidebar">
+          <div class="sidebar-heading">MediBridge Hospital System</div>
+          <button class="dash-nav-item active" onclick="doctorReview.switchSidebarTab('overview')">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
+            Overview
+          </button>
+          <button class="dash-nav-item" onclick="doctorReview.switchSidebarTab('queue')">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="8" y1="6" x2="21" y2="6"></line><line x1="8" y1="12" x2="21" y2="12"></line><line x1="8" y1="18" x2="21" y2="18"></line></svg>
+            Patient Queue
+          </button>
+          <button class="dash-nav-item" onclick="doctorReview.switchSidebarTab('history')">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 14 14"></polyline></svg>
+            Clinical History
+          </button>
+          <button class="dash-nav-item" onclick="doctorReview.switchSidebarTab('documents')">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline></svg>
+            Documents
+          </button>
+          <button class="dash-nav-item" onclick="doctorReview.switchSidebarTab('reports')">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21.21 15.89A10 10 0 1 1 8 2.83"></path><path d="M22 12A10 10 0 0 0 12 2v10z"></path></svg>
+            Reports
+          </button>
+          <button class="dash-nav-item" onclick="doctorReview.switchSidebarTab('settings')">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
+            Settings
+          </button>
+        </aside>
+
+        <!-- Main Dashboard Column -->
+        <div>
+          <!-- Statistics Row -->
+          <div class="dash-stats-row">
+            <div class="stat-card">
+              <div class="stat-label">Patients Today</div>
+              <div class="stat-number">24</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-label">Awaiting Review</div>
+              <div class="stat-number" style="color: var(--amber-600);">6</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-label">Completed</div>
+              <div class="stat-number" style="color: var(--emerald-600);">18</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-label">Documents Processed</div>
+              <div class="stat-number" style="color: var(--cyan-600);">41</div>
+            </div>
+          </div>
+
+          <!-- Patient Queue Card -->
+          <div class="queue-card">
+            <div class="queue-card-head">
+              <h3>Clinical Review Queue</h3>
+              <span class="badge-label badge-purple">Synthetic Demo Queue</span>
+            </div>
+
+            <table class="queue-table">
+              <thead>
+                <tr>
+                  <th>Patient</th>
+                  <th>Age / Sex</th>
+                  <th>Chief Symptoms</th>
+                  <th>Status</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr onclick="doctorReview.openPatientReview('Aarav Sharma')">
+                  <td>
+                    <div class="patient-cell">
+                      <div class="patient-avatar-mini">AS</div>
+                      <div>
+                        <strong>Aarav Sharma</strong>
+                        <div style="font-size: 0.75rem; color: var(--text-muted);">DEMO-ABHA-001</div>
+                      </div>
+                    </div>
+                  </td>
+                  <td>42 M</td>
+                  <td>Fever + abdominal discomfort</td>
+                  <td><span class="badge-label badge-purple">Ready for Review</span></td>
+                  <td><button class="btn btn-sm btn-primary">Review Record</button></td>
+                </tr>
+                <tr onclick="doctorReview.openPatientReview('Meera Patel')">
+                  <td>
+                    <div class="patient-cell">
+                      <div class="patient-avatar-mini" style="background-color: var(--purple-100); color: var(--purple-600);">MP</div>
+                      <div>
+                        <strong>Meera Patel</strong>
+                        <div style="font-size: 0.75rem; color: var(--text-muted);">DEMO-ABHA-002</div>
+                      </div>
+                    </div>
+                  </td>
+                  <td>36 F</td>
+                  <td>Headache</td>
+                  <td><span class="badge-label badge-emerald">Awaiting Consultation</span></td>
+                  <td><button class="btn btn-sm btn-secondary">Review Record</button></td>
+                </tr>
+                <tr onclick="doctorReview.openPatientReview('Rohan Verma')">
+                  <td>
+                    <div class="patient-cell">
+                      <div class="patient-avatar-mini" style="background-color: var(--rose-100); color: var(--rose-600);">RV</div>
+                      <div>
+                        <strong>Rohan Verma</strong>
+                        <div style="font-size: 0.75rem; color: var(--text-muted);">DEMO-ABHA-003</div>
+                      </div>
+                    </div>
+                  </td>
+                  <td>58 M</td>
+                  <td>Chest discomfort</td>
+                  <td><span class="badge-label badge-rose">Requires Review</span></td>
+                  <td><button class="btn btn-sm btn-outline-danger">Review Record</button></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- =========================================================================
+       SECTION 6: PATIENT REVIEW (PHYSICIAN WORKSTATION & VERIFICATION)
+       ========================================================================= -->
+  <section id="view-review" class="view-section">
+    <div class="container" style="padding-top: 1.5rem;">
+      
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
+        <div>
+          <button class="btn btn-sm btn-secondary" onclick="appNav.goToSection('dashboard')">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"></polyline></svg>
+            Back to Queue
+          </button>
+        </div>
+        <div style="display: flex; align-items: center; gap: 0.75rem;">
+          <span class="badge-label badge-purple">Physician Verification Mode</span>
+          <span style="font-size: 0.8rem; color: var(--text-muted);">ID: DEMO-ABHA-001</span>
+        </div>
+      </div>
+
+      <div class="review-dashboard-grid">
+        <!-- LEFT COLUMN: PATIENT PROFILE + MEDICAL TIMELINE + DOCUMENTS -->
+        <div class="review-left-col">
+          
+          <!-- Patient Profile -->
+          <div class="patient-profile-card">
+            <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1.25rem;">
+              <div class="patient-avatar-circle" style="width: 54px; height: 54px;">AS</div>
+              <div>
+                <h3 style="font-size: 1.35rem; font-weight: 800; color: var(--navy-900);">Aarav Sharma</h3>
+                <p style="font-size: 0.85rem; color: var(--text-secondary);">42 Years / Male • ABHA: DEMO-ABHA-001</p>
+              </div>
+            </div>
+
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.85rem; padding: 1rem; background-color: var(--bg-main); border-radius: var(--radius-md); border: 1px solid var(--border-light);">
+              <div>
+                <span style="font-size: 0.72rem; color: var(--text-muted); text-transform: uppercase; font-weight: 700;">Language</span>
+                <p style="font-weight: 700; color: var(--navy-900);">Hindi (Bhashini-ASR)</p>
+              </div>
+              <div>
+                <span style="font-size: 0.72rem; color: var(--text-muted); text-transform: uppercase; font-weight: 700;">Consent</span>
+                <p style="font-weight: 700; color: var(--emerald-600);">✓ Digital Verified</p>
+              </div>
+              <div>
+                <span style="font-size: 0.72rem; color: var(--text-muted); text-transform: uppercase; font-weight: 700;">Allergies</span>
+                <p style="font-weight: 700; color: var(--navy-900);">None Reported</p>
+              </div>
+              <div>
+                <span style="font-size: 0.72rem; color: var(--text-muted); text-transform: uppercase; font-weight: 700;">Red-Flag Status</span>
+                <p style="font-weight: 700; color: var(--emerald-600);">Negative for Critical</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Documents Box -->
+          <div class="patient-profile-card">
+            <h4 style="font-size: 1rem; font-weight: 800; color: var(--navy-900); margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem;">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline></svg>
+              Attached Medical Documents (1)
+            </h4>
+            <div style="display: flex; align-items: center; justify-content: space-between; padding: 0.75rem; border: 1px solid var(--border-light); border-radius: var(--radius-md); background-color: var(--bg-main);">
+              <div style="display: flex; align-items: center; gap: 0.65rem;">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--cyan-600)" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline></svg>
+                <div>
+                  <div style="font-size: 0.85rem; font-weight: 700; color: var(--navy-900);">blood_report_2025.pdf</div>
+                  <div style="font-size: 0.72rem; color: var(--text-muted);">Previous Blood Report • OCR Processed</div>
+                </div>
+              </div>
+              <span class="badge-label badge-emerald">Parsed</span>
+            </div>
+          </div>
+
+          <!-- Compact Timeline -->
+          <div class="patient-profile-card">
+            <h4 style="font-size: 1rem; font-weight: 800; color: var(--navy-900); margin-bottom: 1rem;">Clinical History Chronology</h4>
+            <div style="display: flex; flex-direction: column; gap: 0.75rem; font-size: 0.85rem;">
+              <div style="padding: 0.6rem 0.85rem; border-left: 3px solid var(--blue-600); background-color: var(--bg-main); border-radius: 0 var(--radius-sm) var(--radius-sm) 0;">
+                <strong>2024:</strong> Outpatient consultation for viral syndrome. (Verified)
+              </div>
+              <div style="padding: 0.6rem 0.85rem; border-left: 3px solid var(--cyan-500); background-color: var(--bg-main); border-radius: 0 var(--radius-sm) var(--radius-sm) 0;">
+                <strong>2025:</strong> Mild dyspepsia evaluated. Ultrasound mild gastritis.
+              </div>
+              <div style="padding: 0.6rem 0.85rem; border-left: 3px solid var(--purple-600); background-color: var(--bg-main); border-radius: 0 var(--radius-sm) var(--radius-sm) 0;">
+                <strong>2025:</strong> CBC Report (WBC 15,700 /µL, Platelets 4.64L).
+              </div>
+              <div style="padding: 0.6rem 0.85rem; border-left: 3px solid var(--emerald-500); background-color: var(--cyan-50); border-radius: 0 var(--radius-sm) var(--radius-sm) 0;">
+                <strong>2026 (Today):</strong> Fever with abdominal discomfort for 3 days.
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- RIGHT COLUMN: AI CLINICAL SUMMARY + VERIFY/EDIT/REJECT CONTROLS + AUDIT TRAIL -->
+        <div class="review-right-col">
+          
+          <div class="patient-profile-card">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.25rem; padding-bottom: 0.75rem; border-bottom: 1px solid var(--border-light);">
+              <div>
+                <h4 style="font-size: 1.15rem; font-weight: 800; color: var(--navy-900);">Physician Review &amp; Verification</h4>
+                <p style="font-size: 0.8rem; color: var(--text-muted);">Verify, edit, or reject each synthesized finding.</p>
+              </div>
+              <span class="badge-label badge-purple">Active Consultation</span>
+            </div>
+
+            <!-- Item 1: Chief Complaint Verification -->
+            <div class="summary-section-block" id="verifyBlock1">
+              <div class="section-title-row">
+                <h4>1. CHIEF COMPLAINT</h4>
+                <div>
+                  <span class="badge-label">PATIENT</span>
+                  <span id="statusBadge1" class="item-verification-status" style="color: var(--text-muted);">Awaiting Clinician</span>
+                </div>
+              </div>
+              <p class="summary-content-text" id="reviewChiefText">Fever with abdominal discomfort for 3 days.</p>
+              <div class="inline-edit-box" id="editBox1">
+                <textarea class="inline-edit-textarea" id="editText1">Fever with abdominal discomfort for 3 days.</textarea>
+                <div style="margin-top: 0.5rem; display: flex; gap: 0.5rem;">
+                  <button class="btn btn-sm btn-primary" onclick="doctorReview.saveEdit(1)">Save Edit</button>
+                  <button class="btn btn-sm btn-secondary" onclick="doctorReview.cancelEdit(1)">Cancel</button>
+                </div>
+              </div>
+              <div class="verify-actions-bar">
+                <button class="btn btn-sm btn-verify" onclick="doctorReview.verifyItem(1, 'Chief Complaint')">✓ Verify</button>
+                <button class="btn btn-sm btn-edit" onclick="doctorReview.openEdit(1)">✎ Edit</button>
+                <button class="btn btn-sm btn-reject" onclick="doctorReview.rejectItem(1, 'Chief Complaint')">× Reject</button>
+              </div>
+            </div>
+
+            <!-- Item 2: History of Present Illness Verification -->
+            <div class="summary-section-block" id="verifyBlock2">
+              <div class="section-title-row">
+                <h4>2. HISTORY OF PRESENT ILLNESS</h4>
+                <div>
+                  <span class="badge-label badge-purple">AI STRUCTURED</span>
+                  <span id="statusBadge2" class="item-verification-status" style="color: var(--text-muted);">Awaiting Clinician</span>
+                </div>
+              </div>
+              <p class="summary-content-text" id="reviewHpiText">Patient reports fever beginning approximately three days ago with associated abdominal discomfort.</p>
+              <div class="inline-edit-box" id="editBox2">
+                <textarea class="inline-edit-textarea" id="editText2">Patient reports fever beginning approximately three days ago with associated abdominal discomfort.</textarea>
+                <div style="margin-top: 0.5rem; display: flex; gap: 0.5rem;">
+                  <button class="btn btn-sm btn-primary" onclick="doctorReview.saveEdit(2)">Save Edit</button>
+                  <button class="btn btn-sm btn-secondary" onclick="doctorReview.cancelEdit(2)">Cancel</button>
+                </div>
+              </div>
+              <div class="verify-actions-bar">
+                <button class="btn btn-sm btn-verify" onclick="doctorReview.verifyItem(2, 'History of Present Illness')">✓ Verify</button>
+                <button class="btn btn-sm btn-edit" onclick="doctorReview.openEdit(2)">✎ Edit</button>
+                <button class="btn btn-sm btn-reject" onclick="doctorReview.rejectItem(2, 'History of Present Illness')">× Reject</button>
+              </div>
+            </div>
+
+            <!-- Item 3: Lab Investigations Verification -->
+            <div class="summary-section-block" id="verifyBlock3">
+              <div class="section-title-row">
+                <h4>3. PREVIOUS INVESTIGATIONS &amp; LAB VALUES</h4>
+                <div>
+                  <span class="badge-label badge-emerald">DOCUMENT OCR</span>
+                  <span id="statusBadge3" class="item-verification-status" style="color: var(--text-muted);">Awaiting Clinician</span>
+                </div>
+              </div>
+              <p class="summary-content-text" id="reviewInvText">Previous laboratory report available. Elevated WBC 15,700 /µL; Platelets 4.64 lakh/µL; Hb 13.2 g/dL.</p>
+              <div class="inline-edit-box" id="editBox3">
+                <textarea class="inline-edit-textarea" id="editText3">Previous laboratory report available. Elevated WBC 15,700 /µL; Platelets 4.64 lakh/µL; Hb 13.2 g/dL.</textarea>
+                <div style="margin-top: 0.5rem; display: flex; gap: 0.5rem;">
+                  <button class="btn btn-sm btn-primary" onclick="doctorReview.saveEdit(3)">Save Edit</button>
+                  <button class="btn btn-sm btn-secondary" onclick="doctorReview.cancelEdit(3)">Cancel</button>
+                </div>
+              </div>
+              <div class="verify-actions-bar">
+                <button class="btn btn-sm btn-verify" onclick="doctorReview.verifyItem(3, 'Investigations')">✓ Verify</button>
+                <button class="btn btn-sm btn-edit" onclick="doctorReview.openEdit(3)">✎ Edit</button>
+                <button class="btn btn-sm btn-reject" onclick="doctorReview.rejectItem(3, 'Investigations')">× Reject</button>
+              </div>
+            </div>
+
+            <!-- Audit Trail Box -->
+            <div class="audit-trail-card">
+              <h5>Audit Trail &amp; Clinical Governance</h5>
+              <div class="audit-events-list" id="auditEventsList">
+                <div class="audit-event-row">
+                  <span class="audit-time">14:32</span>
+                  <span class="audit-desc">AI generated clinical intake summary</span>
+                </div>
+                <div class="audit-event-row">
+                  <span class="audit-time">14:33</span>
+                  <span class="audit-desc">Doctor opened patient record for review</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Final Consultation Completion Button -->
+            <div style="margin-top: 1.75rem; text-align: center;">
+              <button class="btn btn-primary" style="width: 100%; padding: 0.9rem;" onclick="doctorReview.finalizeConsultation()">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+                Complete Consultation Preparation
+              </button>
+            </div>
+
+            <!-- Final Success Message -->
+            <div id="finalSuccessBanner" style="display: none; margin-top: 1.25rem; padding: 1rem; background-color: var(--emerald-100); border: 1.5px solid var(--emerald-500); border-radius: var(--radius-md); text-align: center; color: var(--emerald-600); font-weight: 700;">
+              ✓ Patient history successfully prepared for doctor review.
+            </div>
+
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- =========================================================================
+       TIMELINE DETAIL MODAL
+       ========================================================================= -->
+  <div id="timelineModal" style="display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background-color: rgba(10, 22, 40, 0.7); z-index: 10000; align-items: center; justify-content: center;">
+    <div style="background-color: #FFFFFF; border-radius: var(--radius-xl); max-width: 520px; width: 90%; padding: 2rem; box-shadow: var(--shadow-xl); position: relative;">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+        <span class="badge-label" id="modalBadge">Timeline Event</span>
+        <button onclick="timelineViewer.closeModal()" style="background: none; border: none; cursor: pointer; font-size: 1.2rem; color: var(--text-muted);">&times;</button>
+      </div>
+      <h3 id="modalTitle" style="font-size: 1.25rem; font-weight: 800; color: var(--navy-900); margin-bottom: 0.5rem;">Event Title</h3>
+      <p id="modalDesc" style="font-size: 0.92rem; color: var(--text-secondary); line-height: 1.6; margin-bottom: 1.5rem;">Event detailed description.</p>
+      <div style="display: flex; justify-content: flex-end;">
+        <button class="btn btn-secondary btn-sm" onclick="timelineViewer.closeModal()">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Notification Container -->
+  <div class="toast-container" id="toastContainer" aria-live="polite"></div>
+
+  <!-- =========================================================================
+       FOOTER
+       ========================================================================= -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-col">
+          <div class="brand-logo" style="margin-bottom: 1rem; color: #FFFFFF;">
+            <img src="assets/logo.svg" alt="MediBridge AI" width="32" height="32">
+            <span style="font-weight: 700; font-size: 1.15rem; color: #FFFFFF;">MediBridge<span style="color: var(--cyan-400);">AI</span></span>
+          </div>
+          <p style="font-size: 0.85rem; color: var(--text-light); line-height: 1.6; max-width: 320px;">
+            AI-powered multilingual clinical intake platform for Smart India Hackathon (SIH) 2026. Bridging patient stories and clinician decisions.
+          </p>
+        </div>
+
+        <div class="footer-col">
+          <h5>Platform Navigation</h5>
+          <ul class="footer-links">
+            <li><a href="javascript:void(0)" onclick="appNav.goToSection('home')">Home</a></li>
+            <li><a href="javascript:void(0)" onclick="appNav.goToSection('intake')">Patient Intake</a></li>
+            <li><a href="javascript:void(0)" onclick="appNav.goToSection('documents')">Medical Documents</a></li>
+            <li><a href="javascript:void(0)" onclick="appNav.goToSection('summary')">Clinical Summary</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h5>Clinical Views</h5>
+          <ul class="footer-links">
+            <li><a href="javascript:void(0)" onclick="appNav.goToSection('dashboard')">Doctor Dashboard</a></li>
+            <li><a href="javascript:void(0)" onclick="appNav.goToSection('review')">Patient Review</a></li>
+            <li><a href="javascript:void(0)" onclick="docUpload.runDemoOCR()">OCR Demo</a></li>
+            <li><a href="javascript:void(0)" onclick="intakeFlow.goToStep(4)">Voice Intake Demo</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h5>Standards &amp; Trust</h5>
+          <ul class="footer-links">
+            <li><span style="color: var(--text-light); font-size: 0.85rem;">FHIR-Oriented Data</span></li>
+            <li><span style="color: var(--text-light); font-size: 0.85rem;">ABDM Architecture Ready</span></li>
+            <li><span style="color: var(--text-light); font-size: 0.85rem;">Bhashini Speech Compatible</span></li>
+            <li><span style="color: var(--text-light); font-size: 0.85rem;">Consent-First Governance</span></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <div>&copy; 2026 MediBridge AI. Smart India Hackathon Prototype.</div>
+        <div>Synthetic demo data only • No real medical diagnosis or external API calls</div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Main JavaScript Controller -->
+  <script src="script.js"></script>
+</body>
+</html>

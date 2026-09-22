@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" width="48" height="48" fill="none">
+  <path d="M4 36 Q12 14 24 14 Q36 14 44 36" stroke="#00B4D8" stroke-width="2.8" fill="none" stroke-linecap="round"/>
+  <line x1="13" y1="23" x2="13" y2="37" stroke="#0A1628" stroke-width="2.2" stroke-linecap="round"/>
+  <line x1="35" y1="23" x2="35" y2="37" stroke="#0A1628" stroke-width="2.2" stroke-linecap="round"/>
+  <line x1="4" y1="37" x2="44" y2="37" stroke="#0A1628" stroke-width="2.5" stroke-linecap="round"/>
+  <line x1="13" y1="16" x2="13" y2="23" stroke="#00B4D8" stroke-width="1.4" stroke-linecap="round"/>
+  <line x1="35" y1="16" x2="35" y2="23" stroke="#00B4D8" stroke-width="1.4" stroke-linecap="round"/>
+  <polyline points="16,37 18.5,37 20,31 22,40 23.5,28 25,40 26.5,33 28,37 32,37" stroke="#7B2FBE" stroke-width="1.7" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+  <circle cx="7" cy="37" r="1.8" fill="#00B4D8"/>
+  <circle cx="41" cy="37" r="1.8" fill="#00B4D8"/>
+  <rect x="22" y="5" width="4" height="9" rx="1" fill="#7B2FBE" opacity="0.75"/>
+  <rect x="19.5" y="7.5" width="9" height="4" rx="1" fill="#7B2FBE" opacity="0.75"/>
+</svg>
